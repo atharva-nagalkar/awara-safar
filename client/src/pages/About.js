@@ -11,6 +11,9 @@ const About = () => {
           <p className="text-xl text-gray-100 max-w-3xl mx-auto">
             We are a passionate group of adventurers dedicated to creating unforgettable trekking and touring experiences
           </p>
+          <div className="mt-8 flex justify-center">
+            <img src="/awarasafarlogo.jpg" alt="Awara Safar Logo" className="h-24 w-auto object-contain rounded" />
+          </div>
         </div>
       </section>
 
@@ -115,15 +118,17 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="text-center">
-                <div className="bg-gradient-to-br from-primary-400 to-primary-600 rounded-full w-48 h-48 mx-auto mb-4 flex items-center justify-center">
-                  <Users className="h-24 w-24 text-white" />
-                </div>
-                <h3 className="font-semibold text-xl mb-2">Team Member {i}</h3>
-                <p className="text-primary-600 mb-2">Trek Leader</p>
+            {[
+              { name: 'Pranav Surve', role: 'Trek Leader', img: '/pranavsurve.jpg' },
+              { name: 'Yash Gade', role: 'Coordinator', img: '/yashgade.jpg' },
+              { name: 'Harshal Salunkhe', role: 'Operations', img: '/harshalsalunkhe.jpg' }
+            ].map((m) => (
+              <div key={m.name} className="text-center">
+                <img src={m.img} alt={m.name} className="rounded-full w-48 h-48 object-cover mx-auto mb-4 border-4 border-primary-100" />
+                <h3 className="font-semibold text-xl mb-1">{m.name}</h3>
+                <p className="text-primary-600 mb-2">{m.role}</p>
                 <p className="text-gray-600 text-sm">
-                  Experienced mountaineer with 10+ years of trekking expertise
+                  Passionate about the outdoors and creating safe, memorable treks.
                 </p>
               </div>
             ))}
