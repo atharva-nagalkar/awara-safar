@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Mountain, Calendar, Users, Award, ArrowRight, MapPin, Clock } from 'lucide-react';
 import { trekService } from '../services/api';
@@ -10,6 +10,24 @@ const Home = () => {
   useEffect(() => {
     loadFeaturedTreks();
   }, []);
+
+  // Hero slider
+  const heroImages = useMemo(
+    () => [
+      '/hero/1.jpg',
+      '/hero/2.jpg',
+      '/hero/3.jpg',
+      '/hero/4.jpg'
+    ],
+    []
+  );
+  const [slide, setSlide] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSlide((s) => (s + 1) % heroImages.length);
+    }, 4000);
+    return () => clearInterval(id);
+  }, [heroImages.length]);
 
   const loadFeaturedTreks = async () => {
     try {
@@ -24,9 +42,24 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-primary-600 to-primary-800 text-white">
-        <div className="absolute inset-0 bg-black opacity-40"></div>
+      {/* Hero Section: Auto-sliding images */}
+      <section className="relative h-screen flex items-center justify-center text-white overflow-hidden">
+        {/* Slides */}
+        <div className="absolute inset-0">
+          {heroImages.map((src, idx) => (
+            <img
+              key={src}
+              src={src}
+              alt="Awara Safar hero"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                idx === slide ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          ))}
+          {/* dark overlay */}
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto animate-fade-in">
           <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
             Adventure Awaits
@@ -50,7 +83,7 @@ const Home = () => {
             </Link>
           </div>
         </div>
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
           <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
             <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
           </div>
@@ -73,8 +106,12 @@ const Home = () => {
                 </Link>
               </div>
             </div>
-            <div className="h-64 md:h-80 rounded-xl overflow-hidden bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
-              <Mountain className="h-24 w-24 text-white opacity-80" />
+            <div className="h-64 md:h-80 rounded-xl overflow-hidden bg-gray-200">
+              <img
+                src="/rajgad.jpg"
+                alt="Rajgad Trek"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
