@@ -151,9 +151,27 @@ const Treks = () => {
               <div className="spinner"></div>
             </div>
           ) : past.length === 0 ? (
-            <div className="text-center py-12">
-              <Mountain className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No past treks yet</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-white rounded-xl overflow-hidden shadow-lg">
+                <div className="h-56 bg-gray-200">
+                  <img src="/kalsubai.jpg" alt="Kalsubai Trek" className="w-full h-full object-cover" />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-semibold text-xl mb-2">Kalsubai</h3>
+                  <p className="text-gray-600 text-sm mb-2">Ahmednagar District</p>
+                  <p className="text-gray-600 text-sm">Maharashtra’s highest peak—an exhilarating climb with breathtaking Sahyadri views and unforgettable sunrise moments.</p>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl overflow-hidden shadow-lg">
+                <div className="h-56 bg-gray-200">
+                  <img src="/kalmandavi.jpg" alt="Kalmandavi Waterfall Trek" className="w-full h-full object-cover" />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-semibold text-xl mb-2">Kalmandavi Waterfall</h3>
+                  <p className="text-gray-600 text-sm mb-2">Nashik Region</p>
+                  <p className="text-gray-600 text-sm">A refreshing monsoon trail through lush forests leading to the roaring Kalmandavi cascade—perfect for nature lovers and photographers.</p>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

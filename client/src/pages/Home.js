@@ -80,45 +80,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Past Treks Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-4xl font-bold text-gray-900 mb-4">Past Treks</h2>
-            <p className="text-gray-600 text-lg">A glimpse of adventures we’ve already conquered</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Kalsubai */}
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg">
-              <div className="h-56 bg-gray-200">
-                <img src="/kalsubai.jpg" alt="Kalsubai Trek" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6">
-                <h3 className="font-semibold text-2xl mb-2">Kalsubai</h3>
-                <p className="text-gray-600 mb-4">Maharashtra’s highest peak—an exhilarating climb with breathtaking Sahyadri views and unforgettable sunrise moments.</p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <MapPin className="h-4 w-4 mr-1" /> Ahmednagar District
-                </div>
-              </div>
-            </div>
-
-            {/* Kalmandavi Waterfall */}
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg">
-              <div className="h-56 bg-gray-200">
-                <img src="/kalmandavi.jpg" alt="Kalmandavi Waterfall Trek" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6">
-                <h3 className="font-semibold text-2xl mb-2">Kalmandavi Waterfall</h3>
-                <p className="text-gray-600 mb-4">A refreshing monsoon trail through lush forests leading to the roaring Kalmandavi cascade—perfect for nature lovers and photographers.</p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <MapPin className="h-4 w-4 mr-1" /> Nashik Region
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Features Section */}
       <section className="py-20 bg-white">
