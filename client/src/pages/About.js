@@ -11,9 +11,6 @@ const About = () => {
           <p className="text-xl text-gray-100 max-w-3xl mx-auto">
             We are a passionate group of adventurers dedicated to creating unforgettable trekking and touring experiences
           </p>
-          <div className="mt-8 flex justify-center">
-            <img src="/awarasafarlogo.jpg" alt="Awara Safar Logo" className="h-24 w-auto object-contain rounded" />
-          </div>
         </div>
       </section>
 
@@ -36,8 +33,8 @@ const About = () => {
               </p>
             </div>
             <div className="relative">
-              <div className="bg-gradient-to-br from-primary-400 to-primary-600 rounded-lg h-96 flex items-center justify-center">
-                <Mountain className="h-32 w-32 text-white opacity-50" />
+              <div className="bg-white rounded-lg h-96 flex items-center justify-center p-6">
+                <img src="/awarasafarlogo.jpg" alt="Awara Safar Logo" className="h-64 w-auto object-contain" />
               </div>
             </div>
           </div>

@@ -82,7 +82,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center space-y-1">
           <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} Awara Safar. All rights reserved.</p>
-          <p className="text-gray-400 text-xs">Website credits: <span className="font-semibold text-white">Atharva Nagalkar</span></p>
+          <p className="text-gray-400 text-xs">Website credits: <span className="font-semibold text-white">Atharva Nagalkar</span> · <a className="underline hover:text-primary-400" href="mailto:hithisisnagalkaratharva@gmail.com">hithisisnagalkaratharva@gmail.com</a> · <a className="underline hover:text-primary-400" href="tel:+917021446836">+91 7021446836</a></p>
         </div>
       </div>
     </footer>
