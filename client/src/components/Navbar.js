@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mountain, Menu, X, Bell, User, LogOut } from 'lucide-react';
+import { Menu, X, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
 
@@ -31,7 +31,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <Mountain className="h-8 w-8 text-primary-600" />
+              <img src="/awarasafarlogo.jpg" alt="Awara Safar" className="h-8 w-8 object-contain" />
               <span className="font-display font-bold text-xl text-gray-900">
                 Awara Safar
               </span>
