@@ -55,6 +55,7 @@ const Treks = () => {
       {/* Upcoming Treks */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-display font-bold mb-6 text-gray-900">Upcoming Treks</h2>
           {loading ? (
             <div className="flex justify-center py-20">
               <div className="spinner"></div>

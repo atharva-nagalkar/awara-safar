@@ -68,8 +68,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Phone</h3>
-                    <p className="text-gray-600">+91 98765 43210</p>
-                    <p className="text-gray-600">+91 87654 32109</p>
+                    <p className="text-gray-600">+91 96534 41749</p>
+                    <p className="text-gray-600">+91 79773 89554</p>
                   </div>
                 </div>
               </div>
@@ -81,8 +81,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Email</h3>
-                    <p className="text-gray-600">info@awarasafar.com</p>
-                    <p className="text-gray-600">support@awarasafar.com</p>
+                    <p className="text-gray-600">awara.safar3@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -95,9 +94,8 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Address</h3>
                     <p className="text-gray-600">
-                      123 Adventure Street<br />
-                      Mumbai, Maharashtra<br />
-                      India - 400001
+                      Shree Ganesh Nagar, Panchkutir Powai,<br />
+                      Mumbai, Maharashtra 400076
                     </p>
                   </div>
                 </div>
@@ -108,7 +106,7 @@ const Contact = () => {
                 <h3 className="font-semibold text-lg mb-4">Find Us</h3>
                 <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609823277!2d72.74109995709657!3d19.082177826740436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1234567890123"
+                    src="https://www.google.com/maps?q=19.1231735,72.9094698&z=18&output=embed"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -182,7 +180,7 @@ const Contact = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 96534 41749"
                       />
                     </div>
 

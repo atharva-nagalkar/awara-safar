@@ -43,10 +43,10 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section: Auto-sliding images */}
-      <section className="relative h-[65vh] md:h-[70vh] flex items-center justify-center text-white">
-        <div className="relative w-full max-w-6xl mx-auto h-full px-4">
+      <section className="relative h-[65vh] md:h-[70vh] flex items-center justify-center text-white mt-16 md:mt-20">
+        <div className="relative w-full h-full">
           {/* Slides container */}
-          <div className="relative h-full rounded-2xl overflow-hidden">
+          <div className="relative h-full overflow-hidden">
             {heroImages.map((src, idx) => (
               <img
                 key={src}
@@ -63,7 +63,7 @@ const Home = () => {
 
           {/* Content */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="text-center px-4 max-w-4xl animate-fade-in">
+            <div className="text-center px-4 max-w-5xl animate-fade-in">
               <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
                 Adventure Awaits
               </h1>
@@ -82,7 +82,7 @@ const Home = () => {
                   to="/events"
                   className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-all duration-300 inline-flex items-center justify-center"
                 >
-                  Upcoming Events
+                  Tour
                 </Link>
               </div>
             </div>
