@@ -43,7 +43,7 @@ const Treks = () => {
       {/* Header */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-display text-5xl font-bold mb-4">Treks & Tours</h1>
+          <h1 className="font-display text-5xl font-bold mb-4">Trek</h1>
           <p className="text-xl text-gray-100">
             Explore our curated collection of adventures
           </p>
@@ -60,14 +60,34 @@ const Treks = () => {
               <div className="spinner"></div>
             </div>
           ) : upcoming.length === 0 ? (
-            <div className="text-center py-20">
-              <Mountain className="h-24 w-24 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-700 mb-2">
-                No upcoming treks
-              </h3>
-              <p className="text-gray-500">
-                Check back later for new adventures
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="bg-white rounded-xl overflow-hidden shadow-lg card-hover">
+                <div className="relative h-56 bg-gray-200">
+                  <img src="/rajgad.jpg" alt="Rajgad Trek" className="w-full h-full object-cover" />
+                  <div className="absolute top-4 left-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getDifficultyColor('moderate')}`}>moderate</span>
+                  </div>
+                  <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
+                    <span className="text-primary-600 font-bold">₹1499</span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-primary-600 uppercase">trek</span>
+                    <span className="text-xs text-gray-500">1–2 Nov</span>
+                  </div>
+                  <h3 className="font-semibold text-xl mb-3">Rajgad</h3>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">Let’s escape the city and conquer the mighty Rajgad. Travel • Food • First-Aid • Guide included.</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <MapPin className="h-4 w-4 mr-2 text-primary-600" /> Pune District
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Clock className="h-4 w-4 mr-2 text-primary-600" /> 2 Days
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -151,7 +171,7 @@ const Treks = () => {
               <div className="spinner"></div>
             </div>
           ) : past.length === 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="bg-white rounded-xl overflow-hidden shadow-lg">
                 <div className="h-56 bg-gray-200">
                   <img src="/kalsubai.jpg" alt="Kalsubai Trek" className="w-full h-full object-cover" />
@@ -170,6 +190,16 @@ const Treks = () => {
                   <h3 className="font-semibold text-xl mb-2">Kalmandavi Waterfall</h3>
                   <p className="text-gray-600 text-sm mb-2">Nashik Region</p>
                   <p className="text-gray-600 text-sm">A refreshing monsoon trail through lush forests leading to the roaring Kalmandavi cascade—perfect for nature lovers and photographers.</p>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl overflow-hidden shadow-lg">
+                <div className="h-56 bg-gray-200">
+                  <img src="/harishchandragad.jpg" alt="Harishchandragad Trek" className="w-full h-full object-cover" />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-semibold text-xl mb-2">Harishchandragad</h3>
+                  <p className="text-gray-600 text-sm mb-2">Ahmednagar District</p>
+                  <p className="text-gray-600 text-sm">A classic Sahyadri fort trek known for its Konkankada cliff and stunning sunsets. Perfect for monsoon and winter seasons.</p>
                 </div>
               </div>
             </div>

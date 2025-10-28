@@ -47,10 +47,10 @@ const Navbar = () => {
               About
             </Link>
             <Link to="/treks" className="text-gray-700 hover:text-primary-600 transition">
-              Treks & Tours
+              Trek
             </Link>
             <Link to="/events" className="text-gray-700 hover:text-primary-600 transition">
-              Events
+              Tour
             </Link>
             <Link to="/contact" className="text-gray-700 hover:text-primary-600 transition">
               Contact
@@ -184,14 +184,14 @@ const Navbar = () => {
               className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
               onClick={() => setIsOpen(false)}
             >
-              Treks & Tours
+              Trek
             </Link>
             <Link
               to="/events"
               className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
               onClick={() => setIsOpen(false)}
             >
-              Events
+              Tour
             </Link>
             <Link
               to="/contact"

@@ -12,6 +12,7 @@ const TrekForm = ({ trek, onSave, onCancel }) => {
     price: '',
     location: '',
     startDate: '',
+    endDate: '',
     maxParticipants: '',
     status: 'upcoming',
     featured: false,
@@ -28,6 +29,7 @@ const TrekForm = ({ trek, onSave, onCancel }) => {
       setFormData({
         ...trek,
         startDate: trek.startDate ? new Date(trek.startDate).toISOString().split('T')[0] : '',
+        endDate: trek.endDate ? new Date(trek.endDate).toISOString().split('T')[0] : '',
         highlights: trek.highlights ? trek.highlights.join(', ') : '',
         included: trek.included ? trek.included.join(', ') : '',
         excluded: trek.excluded ? trek.excluded.join(', ') : '',
@@ -37,7 +39,7 @@ const TrekForm = ({ trek, onSave, onCancel }) => {
       // Reset form for new trek
       setFormData({
         title: '', description: '', type: 'trek', difficulty: 'easy', duration: '',
-        price: '', location: '', startDate: '', maxParticipants: '', status: 'upcoming',
+        price: '', location: '', startDate: '', endDate: '', maxParticipants: '', status: 'upcoming',
         featured: false, highlights: '', included: '', excluded: '', images: [],
       });
     }
@@ -117,9 +119,10 @@ const TrekForm = ({ trek, onSave, onCancel }) => {
                 <InputField name="maxParticipants" label="Max Participants" type="number" value={formData.maxParticipants} onChange={handleChange} required />
               </div>
               <InputField name="startDate" label="Start Date" type="date" value={formData.startDate} onChange={handleChange} required />
+              <InputField name="endDate" label="End Date" type="date" value={formData.endDate} onChange={handleChange} required />
               <div className="grid grid-cols-2 gap-4">
                 <SelectField name="type" label="Type" value={formData.type} onChange={handleChange} options={['trek', 'tour']} />
-                <SelectField name="difficulty" label="Difficulty" value={formData.difficulty} onChange={handleChange} options={['easy', 'moderate', 'hard']} />
+                <SelectField name="difficulty" label="Difficulty" value={formData.difficulty} onChange={handleChange} options={['easy', 'moderate', 'difficult', 'extreme']} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <SelectField name="status" label="Status" value={formData.status} onChange={handleChange} options={['upcoming', 'ongoing', 'completed', 'cancelled']} />
