@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mountain, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Mountain, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -53,7 +53,17 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center space-y-1">
           <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} Awara Safar. All rights reserved.</p>
-          <p className="text-gray-400 text-xs">Website credits: <span className="font-semibold text-white">Atharva Nagalkar</span> · <a className="underline hover:text-primary-400" href="mailto:hithisisnagalkaratharva@gmail.com">hithisisnagalkaratharva@gmail.com</a> · <a className="underline hover:text-primary-400" href="tel:+917021446836">+91 7021446836</a></p>
+          <p className="text-gray-400 text-xs flex items-center justify-center gap-2">
+            <span>Website credits:</span>
+            <span className="font-semibold text-white">Atharva Nagalkar</span>
+            <span>·</span>
+            <a className="underline hover:text-primary-400" href="mailto:hithisisnagalkaratharva@gmail.com">hithisisnagalkaratharva@gmail.com</a>
+            <span>·</span>
+            <a className="underline hover:text-primary-400" href="tel:+917021446836">+91 7021446836</a>
+            <a href="https://www.linkedin.com/in/atharva-nagalkar-55796a357/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary-400 ml-1 inline-flex items-center">
+              <Linkedin className="h-4 w-4" />
+            </a>
+          </p>
         </div>
       </div>
     </footer>
