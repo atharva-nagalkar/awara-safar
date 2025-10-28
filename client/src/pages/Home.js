@@ -1,11 +1,17 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Mountain, Calendar, Users, Award, ArrowRight, MapPin, Clock } from 'lucide-react';
-import { trekService } from '../services/api';
+import { trekService, contactService } from '../services/api';
 
 const Home = () => {
   const [featuredTreks, setFeaturedTreks] = useState([]);
   const [loading, setLoading] = useState(true);
+  // Booking modal state
+  const [showBooking, setShowBooking] = useState(false);
+  const [bookingSubmitting, setBookingSubmitting] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [bookingError, setBookingError] = useState('');
+  const [booking, setBooking] = useState({ name: '', age: '', email: '', phone: '', address: '' });
 
   useEffect(() => {
     loadFeaturedTreks();
@@ -40,10 +46,38 @@ const Home = () => {
     }
   };
 
+  const handleBookingChange = (e) => {
+    const { name, value } = e.target;
+    setBooking((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
+    setBookingSubmitting(true);
+    setBookingError('');
+    setBookingSuccess(false);
+    try {
+      const message = `New Rajgad Trek Booking\n\nName: ${booking.name}\nAge: ${booking.age}\nEmail: ${booking.email}\nPhone: ${booking.phone}\nAddress: ${booking.address}`;
+      await contactService.send({
+        name: booking.name,
+        email: booking.email,
+        phone: booking.phone,
+        subject: 'Rajgad Trek Booking',
+        message
+      });
+      setBookingSuccess(true);
+      setBooking({ name: '', age: '', email: '', phone: '', address: '' });
+    } catch (err) {
+      setBookingError(err?.response?.data?.message || 'Failed to submit booking. Please try again.');
+    } finally {
+      setBookingSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section: Auto-sliding images */}
-      <section className="relative h-[65vh] md:h-[70vh] flex items-center justify-center text-white mt-16 md:mt-20">
+      <section className="relative h-[75vh] md:h-[80vh] flex items-center justify-center text-white mt-16 md:mt-20">
         <div className="relative w-full h-full">
           {/* Slides container */}
           <div className="relative h-full overflow-hidden">
@@ -90,6 +124,46 @@ const Home = () => {
         </div>
       </section>
 
+      {showBooking && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b">
+              <h3 className="font-display text-2xl font-bold text-gray-900">Book Rajgad Trek</h3>
+            </div>
+            <form onSubmit={handleBookingSubmit} className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                  <input required name="name" value={booking.name} onChange={handleBookingChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                  <input required type="number" min="1" name="age" value={booking.age} onChange={handleBookingChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input required type="email" name="email" value={booking.email} onChange={handleBookingChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                <input required name="phone" value={booking.phone} onChange={handleBookingChange} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                <textarea required name="address" value={booking.address} onChange={handleBookingChange} rows="3" className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" />
+              </div>
+              <div className="flex justify-end gap-3 pt-2">
+                <button type="button" onClick={() => setShowBooking(false)} className="px-5 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">Cancel</button>
+                <button type="submit" disabled={bookingSubmitting} className="px-5 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-60">{bookingSubmitting ? 'Submitting...' : 'Submit Booking'}</button>
+              </div>
+              {bookingError && <div className="text-red-600 text-sm">{bookingError}</div>}
+              {bookingSuccess && <div className="text-green-600 text-sm">Thank you! We have received your booking.</div>}
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Upcoming Trek Promo: Rajgad */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -100,10 +174,10 @@ const Home = () => {
                 {`Let’s escape the city and conquer the mighty Rajgad 🏔️✨\nJoin us for an unforgettable trekking experience with Awara Safar! 🚶‍♂️🌿\n📅 1st–2nd Nov | 💰 ₹1499 only\nTravel • Food • First-Aid • Guide — Everything’s sorted! 🔥\nTag your trek buddies and get ready for adventure 💪`}
               </p>
               <div className="mt-6">
-                <Link to="/treks" className="inline-flex items-center bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition">
+                <button onClick={() => setShowBooking(true)} className="inline-flex items-center bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition">
                   Book Rajgad
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
+                </button>
               </div>
             </div>
             <div className="h-64 md:h-80 rounded-xl overflow-hidden bg-gray-200">

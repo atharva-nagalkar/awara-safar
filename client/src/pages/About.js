@@ -83,20 +83,20 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="font-display text-5xl font-bold mb-2">500+</div>
+              <div className="font-display text-5xl font-bold mb-2">3</div>
               <div className="text-primary-100">Treks Organized</div>
             </div>
             <div>
-              <div className="font-display text-5xl font-bold mb-2">5000+</div>
+              <div className="font-display text-5xl font-bold mb-2">30+</div>
               <div className="text-primary-100">Happy Trekkers</div>
             </div>
             <div>
-              <div className="font-display text-5xl font-bold mb-2">50+</div>
+              <div className="font-display text-5xl font-bold mb-2">3+</div>
               <div className="text-primary-100">Destinations</div>
             </div>
             <div>
-              <div className="font-display text-5xl font-bold mb-2">5</div>
-              <div className="text-primary-100">Years Experience</div>
+              <div className="font-display text-5xl font-bold mb-2">7</div>
+              <div className="text-primary-100">Months Experience</div>
             </div>
           </div>
         </div>
