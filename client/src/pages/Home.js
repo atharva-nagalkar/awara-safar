@@ -46,6 +46,47 @@ const Home = () => {
     }
   };
 
+  // Animations (safe: only run if GSAP present)
+  useEffect(() => {
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    if (!gsap) return;
+    if (ScrollTrigger && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
+
+    // Hero content entrance
+    gsap.from('.anim-hero-title', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.1 });
+    gsap.from('.anim-hero-sub', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.2 });
+    gsap.from('.anim-hero-ctas > *', { y: 10, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out', delay: 0.3 });
+
+    // Parallax overlay slight move
+    if (ScrollTrigger) {
+      gsap.to('.parallax-y', {
+        yPercent: -10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      // Promo section fade-up
+      gsap.utils.toArray('.anim-fade-up').forEach((el) => {
+        gsap.from(el, {
+          y: 24,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 80%'
+          }
+        });
+      });
+    }
+  }, []);
+
   const handleBookingChange = (e) => {
     const { name, value } = e.target;
     setBooking((prev) => ({ ...prev, [name]: value }));
@@ -77,7 +118,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section: Auto-sliding images */}
-      <section className="relative h-[75vh] md:h-[80vh] flex items-center justify-center text-white mt-16 md:mt-20">
+      <section className="hero-section relative h-[75vh] md:h-[80vh] flex items-center justify-center text-white mt-16 md:mt-20">
         <div className="relative w-full h-full">
           {/* Slides container */}
           <div className="relative h-full overflow-hidden">
@@ -92,19 +133,19 @@ const Home = () => {
               />
             ))}
             {/* dark overlay */}
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="parallax-y absolute inset-0 bg-black/50" />
           </div>
 
           {/* Content */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="text-center px-4 max-w-5xl animate-fade-in">
-              <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
+            <div className="text-center px-4 max-w-5xl">
+              <h1 className="anim-hero-title font-display text-5xl md:text-7xl font-bold mb-6">
                 Adventure Awaits
               </h1>
-              <p className="text-xl md:text-2xl mb-8 text-gray-100">
+              <p className="anim-hero-sub text-xl md:text-2xl mb-8 text-gray-100">
                 Discover the thrill of trekking with Awara Safar. Your journey to unforgettable experiences starts here.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto">
+              <div className="anim-hero-ctas flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto">
                 <Link
                   to="/treks"
                   className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center"
@@ -165,7 +206,7 @@ const Home = () => {
       )}
 
       {/* Upcoming Trek Promo: Rajgad */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white anim-fade-up">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div>

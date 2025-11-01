@@ -1,24 +1,84 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Mountain, Heart, Target, Users } from 'lucide-react';
 
 const About = () => {
+  useEffect(() => {
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    if (!gsap) return;
+    if (ScrollTrigger && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
+
+    // Header
+    gsap.from('.about-hero-title', { y: 24, opacity: 0, duration: 0.8, ease: 'power2.out' });
+    gsap.from('.about-hero-sub', { y: 16, opacity: 0, duration: 0.8, delay: 0.1, ease: 'power2.out' });
+
+    if (ScrollTrigger) {
+      // Story block
+      gsap.from('.about-story-text', {
+        x: -24,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: '.about-story', start: 'top 80%' }
+      });
+      gsap.from('.about-logo-tilt', {
+        rotateX: 50,
+        opacity: 0,
+        transformOrigin: 'center center',
+        duration: 0.9,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: '.about-story', start: 'top 80%' }
+      });
+
+      // Stats
+      gsap.utils.toArray('.about-stats .stat').forEach((el, i) => {
+        gsap.from(el, {
+          scale: 0.9,
+          opacity: 0,
+          duration: 0.6,
+          delay: i * 0.05,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 85%' }
+        });
+      });
+
+      // Team
+      gsap.utils.toArray('.team-grid .team-card').forEach((el, i) => {
+        gsap.from(el, {
+          y: 28,
+          rotate: i % 2 === 0 ? -2 : 2,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 85%' }
+        });
+      });
+    }
+  }, []);
+
   return (
     <div className="min-h-screen pt-16">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="font-display text-5xl font-bold mb-6">About Awara Safar</h1>
-          <p className="text-xl text-gray-100 max-w-3xl mx-auto">
+          <h1 className="about-hero-title font-display text-5xl font-bold mb-6">About Awara Safar</h1>
+          <p className="about-hero-sub text-xl text-gray-100 max-w-3xl mx-auto">
             We are a passionate group of adventurers dedicated to creating unforgettable trekking and touring experiences
           </p>
         </div>
       </section>
 
       {/* Story Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white about-story">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="about-story-text">
               <h2 className="font-display text-4xl font-bold text-gray-900 mb-6">
                 Our Story
               </h2>
@@ -33,7 +93,7 @@ const About = () => {
               </p>
             </div>
             <div className="relative">
-              <div className="bg-white rounded-lg h-96 flex items-center justify-center p-6">
+              <div className="about-logo-tilt bg-white rounded-lg h-96 flex items-center justify-center p-6">
                 <img src="/awarasafarlogo.jpg" alt="Awara Safar Logo" className="h-64 w-auto object-contain" />
               </div>
             </div>
@@ -79,22 +139,22 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-primary-600 text-white">
+      <section className="py-20 bg-primary-600 text-white about-stats">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
+            <div className="stat">
               <div className="font-display text-5xl font-bold mb-2">3</div>
               <div className="text-primary-100">Treks Organized</div>
             </div>
-            <div>
+            <div className="stat">
               <div className="font-display text-5xl font-bold mb-2">30+</div>
               <div className="text-primary-100">Happy Trekkers</div>
             </div>
-            <div>
+            <div className="stat">
               <div className="font-display text-5xl font-bold mb-2">3+</div>
               <div className="text-primary-100">Destinations</div>
             </div>
-            <div>
+            <div className="stat">
               <div className="font-display text-5xl font-bold mb-2">7</div>
               <div className="text-primary-100">Months Experience</div>
             </div>
@@ -114,13 +174,13 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="team-grid grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { name: 'Pranav Surve', role: 'Trek Leader', img: '/pranavsurve.jpg' },
               { name: 'Yash Gade', role: 'Coordinator', img: '/yashgade.jpg' },
               { name: 'Harshal Salunkhe', role: 'Operations', img: '/harshalsalunkhe.jpg' }
             ].map((m) => (
-              <div key={m.name} className="text-center">
+              <div key={m.name} className="team-card text-center">
                 <img src={m.img} alt={m.name} className="rounded-full w-48 h-48 object-cover mx-auto mb-4 border-4 border-primary-100" />
                 <h3 className="font-semibold text-xl mb-1">{m.name}</h3>
                 <p className="text-primary-600 mb-2">{m.role}</p>
