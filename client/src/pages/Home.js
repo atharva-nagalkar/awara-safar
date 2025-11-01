@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Mountain, Calendar, Users, Award, ArrowRight, MapPin, Clock } from 'lucide-react';
 import { trekService, contactService } from '../services/api';
@@ -6,8 +6,6 @@ import { trekService, contactService } from '../services/api';
 const Home = () => {
   const [featuredTreks, setFeaturedTreks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const heroRef = useRef(null);
-  const canvasRef = useRef(null);
   // Booking modal state
   const [showBooking, setShowBooking] = useState(false);
   const [bookingSubmitting, setBookingSubmitting] = useState(false);
@@ -87,97 +85,6 @@ const Home = () => {
     init();
   }, []);
 
-  // Liquid Ether mouse-follow canvas effect (hero background)
-  useEffect(() => {
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
-
-    const canvas = canvasRef.current;
-    const container = heroRef.current;
-    if (!canvas || !container) return;
-    const ctx = canvas.getContext('2d');
-
-    let w = 0, h = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
-    const resize = () => {
-      const rect = container.getBoundingClientRect();
-      w = Math.max(1, Math.floor(rect.width));
-      h = Math.max(1, Math.floor(rect.height));
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-
-    const pointer = { x: w / 2, y: h / 2 };
-    const onMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-      const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-      pointer.x = x;
-      pointer.y = y;
-    };
-    window.addEventListener('mousemove', onMove, { passive: true });
-    window.addEventListener('touchmove', onMove, { passive: true });
-    window.addEventListener('resize', resize);
-
-    // Particles
-    const count = 10; // keep low for perf
-    const dots = Array.from({ length: count }).map((_, i) => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: 0,
-      vy: 0,
-      r: 70 + Math.random() * 60, // radius of glow
-      hue: 140 + Math.random() * 40 + (i * 2),
-    }));
-
-    let rafId;
-    const SPRING = 0.06;
-    const FRICTION = 0.82;
-
-    const draw = () => {
-      // subtle background clear with alpha for trailing
-      ctx.clearRect(0, 0, w, h);
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.filter = 'blur(12px)';
-      for (const d of dots) {
-        // spring toward pointer
-        const dx = pointer.x - d.x;
-        const dy = pointer.y - d.y;
-        d.vx += dx * SPRING;
-        d.vy += dy * SPRING;
-        d.vx *= FRICTION;
-        d.vy *= FRICTION;
-        d.x += d.vx * 0.016; // tamed by frame delta assumption
-        d.y += d.vy * 0.016;
-
-        // draw radial gradient circle
-        const grad = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r);
-        grad.addColorStop(0, `hsla(${d.hue}, 90%, 60%, 0.35)`);
-        grad.addColorStop(1, 'hsla(0, 0%, 0%, 0)');
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.filter = 'none';
-      ctx.globalCompositeOperation = 'source-over';
-      rafId = requestAnimationFrame(draw);
-    };
-    rafId = requestAnimationFrame(draw);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('touchmove', onMove);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
 
   const handleBookingChange = (e) => {
     const { name, value } = e.target;
@@ -210,7 +117,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section: Auto-sliding images */}
-      <section ref={heroRef} className="hero-section relative h-[75vh] md:h-[80vh] flex items-center justify-center text-white mt-16 md:mt-20">
+      <section className="hero-section relative h-[75vh] md:h-[80vh] flex items-center justify-center text-white mt-16 md:mt-20">
         <div className="relative w-full h-full">
           {/* Slides container */}
           <div className="relative h-full overflow-hidden">
@@ -224,8 +131,6 @@ const Home = () => {
                 }`}
               />
             ))}
-            {/* Liquid Ether Canvas (behind overlay) */}
-            <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
             {/* dark overlay */}
             <div className="parallax-y absolute inset-0 bg-black/50" />
           </div>
