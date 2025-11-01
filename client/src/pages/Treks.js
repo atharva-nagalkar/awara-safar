@@ -12,40 +12,50 @@ const Treks = () => {
     loadSections();
   }, []);
 
-  // Animations (safe guards)
+  // Animations (retry to wait for GSAP)
   useEffect(() => {
-    const gsap = window.gsap;
-    const ScrollTrigger = window.ScrollTrigger;
-    if (!gsap) return;
-    if (ScrollTrigger && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
+    let attempts = 0;
+    const init = () => {
+      const gsap = window.gsap;
+      const ScrollTrigger = window.ScrollTrigger;
+      if (!gsap) {
+        if (attempts < 10) {
+          attempts += 1;
+          setTimeout(init, 150);
+        }
+        return;
+      }
+      if (ScrollTrigger && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
 
-    // Header fade/slide
-    gsap.from('.treks-header-title', { y: 24, opacity: 0, duration: 0.8, ease: 'power2.out' });
-    gsap.from('.treks-header-sub', { y: 16, opacity: 0, duration: 0.8, delay: 0.1, ease: 'power2.out' });
+      // Header fade/slide
+      gsap.from('.treks-header-title', { y: 24, opacity: 0, duration: 0.8, ease: 'power2.out' });
+      gsap.from('.treks-header-sub', { y: 16, opacity: 0, duration: 0.8, delay: 0.1, ease: 'power2.out' });
 
-    if (ScrollTrigger) {
-      // Upcoming grid cards
-      gsap.utils.toArray('.upcoming-grid .trek-card').forEach((el, i) => {
-        gsap.from(el, {
-          y: 26,
-          opacity: 0,
-          rotate: i % 2 === 0 ? -1.5 : 1.5,
-          duration: 0.7,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 85%' }
+      if (ScrollTrigger) {
+        // Upcoming grid cards
+        gsap.utils.toArray('.upcoming-grid .trek-card').forEach((el, i) => {
+          gsap.from(el, {
+            y: 26,
+            opacity: 0,
+            rotate: i % 2 === 0 ? -1.5 : 1.5,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: el, start: 'top 85%' }
+          });
         });
-      });
-      // Past grid cards
-      gsap.utils.toArray('.past-grid .trek-card').forEach((el, i) => {
-        gsap.from(el, {
-          x: i % 2 === 0 ? -24 : 24,
-          opacity: 0,
-          duration: 0.7,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 85%' }
+        // Past grid cards
+        gsap.utils.toArray('.past-grid .trek-card').forEach((el, i) => {
+          gsap.from(el, {
+            x: i % 2 === 0 ? -24 : 24,
+            opacity: 0,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: el, start: 'top 85%' }
+          });
         });
-      });
-    }
+      }
+    };
+    init();
   }, []);
 
   const loadSections = async () => {

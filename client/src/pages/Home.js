@@ -46,45 +46,43 @@ const Home = () => {
     }
   };
 
-  // Animations (safe: only run if GSAP present)
+  // Animations (ensure GSAP is ready; retry if loading late)
   useEffect(() => {
-    const gsap = window.gsap;
-    const ScrollTrigger = window.ScrollTrigger;
-    if (!gsap) return;
-    if (ScrollTrigger && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
-
-    // Hero content entrance
-    gsap.from('.anim-hero-title', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.1 });
-    gsap.from('.anim-hero-sub', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.2 });
-    gsap.from('.anim-hero-ctas > *', { y: 10, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out', delay: 0.3 });
-
-    // Parallax overlay slight move
-    if (ScrollTrigger) {
-      gsap.to('.parallax-y', {
-        yPercent: -10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
+    let attempts = 0;
+    const init = () => {
+      const gsap = window.gsap;
+      const ScrollTrigger = window.ScrollTrigger;
+      if (!gsap) {
+        if (attempts < 10) {
+          attempts += 1;
+          setTimeout(init, 150);
         }
-      });
+        return;
+      }
+      if (ScrollTrigger && gsap.registerPlugin) gsap.registerPlugin(ScrollTrigger);
 
-      // Promo section fade-up
-      gsap.utils.toArray('.anim-fade-up').forEach((el) => {
-        gsap.from(el, {
-          y: 24,
-          opacity: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 80%'
-          }
+      gsap.from('.anim-hero-title', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.1 });
+      gsap.from('.anim-hero-sub', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.2 });
+      gsap.from('.anim-hero-ctas > *', { y: 10, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out', delay: 0.3 });
+
+      if (ScrollTrigger) {
+        gsap.to('.parallax-y', {
+          yPercent: -10,
+          ease: 'none',
+          scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: true }
         });
-      });
-    }
+        gsap.utils.toArray('.anim-fade-up').forEach((el) => {
+          gsap.from(el, {
+            y: 24,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: el, start: 'top 80%' }
+          });
+        });
+      }
+    };
+    init();
   }, []);
 
   const handleBookingChange = (e) => {
