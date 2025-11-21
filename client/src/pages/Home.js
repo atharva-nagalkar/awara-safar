@@ -35,10 +35,28 @@ const Home = () => {
     return () => clearInterval(id);
   }, [heroImages.length]);
 
+  // Manali tour data
+  const manaliTour = {
+    _id: 'manali-tour-2025',
+    name: 'Manali Winter Expedition',
+    location: 'Manali, Himachal Pradesh',
+    startDate: '2026-02-21',
+    endDate: '2026-03-01',
+    description: 'Experience the magical winter wonderland of Manali with fresh snowfall. This 9-day tour covers Kullu, Kasol, Manikaran, and Amritsar, offering a perfect blend of adventure and cultural experiences.',
+    price: '25,999',
+    maxParticipants: 15,
+    isTour: true,
+    images: ['/manali.jpg'],
+    duration: '9 days / 8 nights'
+  };
+
   const loadFeaturedTreks = async () => {
     try {
       const response = await trekService.getAll({ featured: true });
-      setFeaturedTreks(response.data.slice(0, 3));
+      // Filter out Rajgad trek and take only 2 treks
+      const filteredTreks = response.data.filter(trek => !trek.name.toLowerCase().includes('rajgad'));
+      // Add Manali tour as the first item
+      setFeaturedTreks([manaliTour, ...filteredTreks.slice(0, 2)]);
     } catch (error) {
       console.error('Error loading featured treks:', error);
     } finally {
@@ -306,87 +324,62 @@ const Home = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {featuredTreks.map((trek) => (
-                <div
-                  key={trek._id}
-                  className="bg-white rounded-xl overflow-hidden shadow-lg card-hover"
-                >
-                  <div className="relative h-48 bg-gradient-to-br from-primary-400 to-primary-600">
-                    {trek.images && trek.images[0] ? (
-                      <img
-                        src={trek.images[0]}
-                        alt={trek.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full">
-                        <Mountain className="h-16 w-16 text-white" />
+                {featuredTreks.map((trek) => (
+                  <div key={trek._id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div className="relative h-48 bg-gradient-to-br from-primary-400 to-primary-600">
+                      {trek.images && trek.images[0] ? (
+                        <img
+                          src={trek.images[0]}
+                          alt={trek.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = '/default-trek.jpg';
+                          }}
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full">
+                          <Mountain className="h-16 w-16 text-white" />
+                        </div>
+                      )}
+                      <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
+                        <span className="text-primary-600 font-semibold">
+                          ₹{trek.price}
+                        </span>
                       </div>
-                    )}
-                    <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
-                      <span className="text-primary-600 font-semibold">
-                        ₹{trek.price}
-                      </span>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="font-semibold text-xl mb-2">{trek.name}</h3>
+                      {trek.isTour && (
+                        <div className="mb-2">
+                          <span className="inline-block bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-full mb-2">
+                            Tour
+                          </span>
+                          <p className="text-xs text-gray-500 mb-2">
+                            <span className="font-medium">Route:</span> Mumbai → Delhi → Kullu → Kasol → Manikaran → Manali → Amritsar → Mumbai
+                          </p>
+                        </div>
+                      )}
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                        {trek.description}
+                      </p>
+                      <div className="flex items-center text-sm text-gray-500 mb-2">
+                        <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+                        <span>{trek.location}</span>
+                      </div>
+                      <div className="flex items-center text-sm text-gray-500 mb-4">
+                        <Clock className="h-4 w-4 mr-1 flex-shrink-0" />
+                        <span>{trek.duration || '9 days / 8 nights'}</span>
+                      </div>
+                      <Link
+                        to={trek.isTour ? "/events" : `/treks/${trek._id}`}
+                        className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition"
+                      >
+                        {trek.isTour ? 'Book Now' : 'View Details'}
+                      </Link>
                     </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="font-semibold text-xl mb-2">{trek.title}</h3>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                      {trek.description}
-                    </p>
-                    <div className="flex items-center text-sm text-gray-500 mb-2">
-                      <MapPin className="h-4 w-4 mr-1" />
-                      {trek.location}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-500 mb-4">
-                      <Clock className="h-4 w-4 mr-1" />
-                      {trek.duration}
-                    </div>
-                    <Link
-                      to={`/treks/${trek._id}`}
-                      className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition"
-                    >
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              ))}
-              <div
-                className="bg-white rounded-xl overflow-hidden shadow-lg card-hover"
-              >
-                <div className="relative h-48 bg-gradient-to-br from-primary-400 to-primary-600">
-                  <img
-                    src="/manali.jpg"
-                    alt="Manali Winter Expedition"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
-                    <span className="text-primary-600 font-semibold">
-                      ₹25,999
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-semibold text-xl mb-2">Manali Winter Expedition</h3>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                    Experience the magical winter wonderland of Manali with fresh snowfall. This 9-day tour covers Kullu, Kasol, Manikaran, and Amritsar, offering a perfect blend of adventure and cultural experiences.
-                  </p>
-                  <div className="flex items-center text-sm text-gray-500 mb-2">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    Manali, Himachal Pradesh
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500 mb-4">
-                    <Clock className="h-4 w-4 mr-1" />
-                    9 days
-                  </div>
-                  <Link
-                    to="/events"
-                    className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition"
-                  >
-                    Book Now
-                  </Link>
-                </div>
-              </div>
+                ))}
             </div>
           )}
 

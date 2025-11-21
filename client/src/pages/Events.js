@@ -11,10 +11,34 @@ const Events = () => {
     loadUpcomingEvents();
   }, []);
 
+  // Manali tour data
+  const manaliTour = {
+    _id: 'manali-tour-2025',
+    name: 'Manali Winter Expedition',
+    location: 'Manali, Himachal Pradesh',
+    startDate: '2026-02-21',
+    endDate: '2026-03-01',
+    description: 'Experience the magical winter wonderland of Manali with fresh snowfall. This 9-day tour covers Kullu, Kasol, Manikaran, and Amritsar, offering a perfect blend of adventure and cultural experiences.',
+    price: '25,999',
+    maxParticipants: 15,
+    isTour: true,
+    images: ['/manali.jpg'],
+    duration: '9 days / 8 nights',
+    route: 'Mumbai → Delhi → Kullu → Kasol → Manikaran → Manali → Amritsar → Mumbai',
+    highlights: [
+      'Snowfall experience in Manali',
+      'Visit to Manikaran Sahib Gurudwara',
+      'Kasol and Parvati Valley exploration',
+      'Golden Temple visit in Amritsar',
+      'Local cuisine and culture immersion'
+    ]
+  };
+
   const loadUpcomingEvents = async () => {
     try {
       const response = await trekService.getUpcoming();
-      setUpcomingEvents(response.data);
+      // Add Manali tour to the beginning of the events list
+      setUpcomingEvents([manaliTour, ...response.data]);
     } catch (error) {
       console.error('Error loading events:', error);
     } finally {
@@ -123,14 +147,38 @@ const Events = () => {
                         </span>
                       </div>
 
-                      <h2 className="font-display text-3xl font-bold text-gray-900 mb-4">
-                        {event.title}
+                      <div className="flex items-start justify-between">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        {event.name}
+                        {event.isTour && (
+                          <span className="ml-2 inline-block bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-full align-middle">
+                            Tour
+                          </span>
+                        )}
                       </h2>
+                      <span className="text-xl font-bold text-primary-600">
+                        ₹{event.price}
+                      </span>
+                    </div>
 
-                      <p className="text-gray-600 mb-6 line-clamp-2">
-                        {event.description}
-                      </p>
-
+                      <p className="text-gray-600 mb-4">{event.description}</p>
+                    {event.highlights && (
+                      <div className="mb-4">
+                        <h4 className="font-semibold text-gray-800 mb-2">Highlights:</h4>
+                        <ul className="list-disc list-inside space-y-1 text-gray-600">
+                          {event.highlights.map((highlight, idx) => (
+                            <li key={idx} className="text-sm">{highlight}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {event.route && (
+                      <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                        <p className="text-sm text-gray-600">
+                          <span className="font-medium">Route:</span> {event.route}
+                        </p>
+                      </div>
+                    )}
                       <div className="grid grid-cols-2 gap-4 mb-6">
                         <div className="flex items-center text-gray-600">
                           <Calendar className="h-5 w-5 mr-2 text-primary-600" />
