@@ -351,6 +351,42 @@ const Home = () => {
                   </div>
                 </div>
               ))}
+              <div
+                className="bg-white rounded-xl overflow-hidden shadow-lg card-hover"
+              >
+                <div className="relative h-48 bg-gradient-to-br from-primary-400 to-primary-600">
+                  <img
+                    src="/manali.jpg"
+                    alt="Manali Winter Expedition"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
+                    <span className="text-primary-600 font-semibold">
+                      ₹25,999
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="font-semibold text-xl mb-2">Manali Winter Expedition</h3>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                    Experience the magical winter wonderland of Manali with fresh snowfall. This 9-day tour covers Kullu, Kasol, Manikaran, and Amritsar, offering a perfect blend of adventure and cultural experiences.
+                  </p>
+                  <div className="flex items-center text-sm text-gray-500 mb-2">
+                    <MapPin className="h-4 w-4 mr-1" />
+                    Manali, Himachal Pradesh
+                  </div>
+                  <div className="flex items-center text-sm text-gray-500 mb-4">
+                    <Clock className="h-4 w-4 mr-1" />
+                    9 days
+                  </div>
+                  <Link
+                    to="/events"
+                    className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition"
+                  >
+                    Book Now
+                  </Link>
+                </div>
+              </div>
             </div>
           )}
 
